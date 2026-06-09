@@ -1,0 +1,3 @@
+compound_id,kinase_A,kinase_B,proteinA_pdb,ligandA_sdf,proteinB_pdb,ligandB_sdf,label
+99960618,P23458,P52333,inference_data/P23458/P23458.pdb,inference_data/P23458/99960618.sdf,inference_data/P52333/P52333.pdb,inference_data/P52333/99960618.sdf,2.1092
+99945275,P29597,P52333,inference_data/P29597/P29597.pdb,inference_data/P29597/99945275.sdf,inference_data/P52333/P52333.pdb,inference_data/P52333/99945275.sdf,2

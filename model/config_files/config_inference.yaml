@@ -1,0 +1,63 @@
+
+save_dir: best_ckpt
+name: seed_42
+
+model: ddgEGNN
+
+# These MUST match the training config's model_params exactly,
+# otherwise weight shapes won't align on load.
+model_params:
+  num_node_features: 13
+  num_edge_features: 1
+  egnn_layer_hidden_nfs: [128, 128, 128]
+  embedding_in_nf: 128
+  embedding_out_nf: 128
+  num_classes: 1
+  attention: False
+  residual: True
+  normalize: False
+  tanh: False
+  update_coords: True
+  norm_nodes: graphnorm
+  pool_graphvectors: diff
+  dropout: 0.2          # ignored at eval; harmless to keep
+  # Training-only knobs left in for __init__ compatibility:
+  lr: 0.001
+  weight_decay: 1.e-2
+  balanced_loss: False
+  opt: adamw
+  scheduler: CosineAnnealing
+
+# Trainer is built minimally for inference; max_epochs etc. are stripped by the script.
+trainer_params:
+  accelerator: "gpu"
+  devices: 1
+
+loader_params:
+  batch_size: 256
+  num_workers: 8
+  pin_memory: false
+
+dataset_params:
+  rotate: False
+  cache_frames: False
+  graph_generation_mode: int_mut
+  interaction_dist: 5
+  typing_mode: lmg
+  rough_search: True
+
+  # Inference reads from precomputed_dirs.test only.
+  # Train/val keys may be omitted, but the dataloader code does not require them
+  # at inference time.
+  precomputed_dirs:
+    train: null
+    val: null
+    test: ../data_process/compound_split/test
+
+  input_files:
+    train:
+      - ../data_process/compound_split/train099.csv
+    val:
+      - ../data_process/compound_split/val001.csv
+    test:
+      - ../data_process/compound_split/test.csv
