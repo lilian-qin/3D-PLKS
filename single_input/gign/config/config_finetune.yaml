@@ -1,0 +1,39 @@
+# Stage 1 backbone
+stage1:
+  checkpoint: "model/20260224_214724_GIGN_repeat0/model/epoch-247, train_loss-0.1676, train_rmse-0.4094, valid_rmse-0.9579, valid_pr-0.5716.pt"
+  node_dim: 35
+  hidden_dim: 256
+
+# Stage 2 selectivity head
+stage2:
+  freeze_backbone: True
+  lr: 1.e-4
+  weight_decay: 0.01
+
+# Dataset
+dataset:
+  train_csv: "../selectivity/data_process/compound_split/train.csv"
+  val_csv: "../selectivity/data_process/compound_split/val.csv"
+  test_csv: "../selectivity/data_process/compound_split/test.csv"
+  graph_dir: "../selectivity/data_process/3Ddock/"
+  graph_type: "Graph_GIGN"
+  dis_threshold: 5
+
+# DataLoader
+loader:
+  batch_size: 64
+  num_workers: 4
+
+# Trainer
+trainer:
+  max_epochs: 30
+  early_stopping_patience: 10
+  save_dir: "model/20260224_214724_GIGN_repeat0/finetune_baseline/"
+
+# Wandb
+wandb:
+  project: "kinase_selectivity"
+  group: "GIGN_finetune"
+  name: "gign-finetune-baseline"
+  tags: ["gign", "stage2", "frozen"]
+  notes: "Stage 2 selectivity fine-tuning with frozen GIGN backbone"
