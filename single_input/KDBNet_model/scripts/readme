@@ -1,0 +1,15 @@
+训练：
+
+nohup env CUDA_VISIBLE_DEVICES=1 python -u scripts/train.py --train_csv ../data_process/dta_data/train_pic50.csv --valid_csv ../data_process/dta_data/val_pic50.csv --test_csv ../data_process/dta_data/test_pic50.csv --out_dir outputs/run2 >train1.log 2>&1 &
+
+change seed can repeate run 
+
+推理：
+
+python scripts/inference.py \
+    --pairs_csv ../data_process/dta_data/test_pic50.csv \
+    --checkpoint outputs/run2/best_model.pt \
+    --prot_dir data/kdbnet/proteins \
+    --drug_dir data/kdbnet/drugs \
+    --label_col label \
+    --out_csv predictions.csv
