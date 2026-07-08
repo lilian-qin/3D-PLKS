@@ -1,0 +1,58 @@
+save_dir: ../results/data_added/outputs_diff/
+name: ddg_diff_data_added_bsize256_lr001
+train: True
+test: True
+restore: null
+initialize_weights: null
+
+logger_params:
+  wandb_bool: True
+  wandb: "kinase_selectivity"     # project name on wandb website
+  group: "siamese_comparison_mode"             # groups related runs together
+
+model: ddgEGNN
+model_params:
+  num_node_features: 13
+  lr: 0.001                     
+  weight_decay: 1.e-2           
+  balanced_loss: False
+  dropout: 0.2                
+  num_edge_features: 1
+  egnn_layer_hidden_nfs: [128, 128, 128]
+  embedding_in_nf: 128
+  embedding_out_nf: 128
+  num_classes: 1
+  opt: adamw
+  attention: False
+  residual: True
+  normalize: False
+  tanh: False
+  update_coords: True
+  scheduler: CosineAnnealing
+  norm_nodes: graphnorm
+
+trainer_params:
+  accumulate_grad_batches: 1
+  max_epochs: 100
+  accelerator: "gpu"
+  devices: 1
+  val_check_interval: 0.25
+
+loader_params:
+  batch_size: 256
+  num_workers: 4
+
+dataset_params:
+  rotate: False
+  cache_frames: False
+  graph_generation_mode: int_mut
+  interaction_dist: 5
+  typing_mode: lmg
+  rough_search: True
+  input_files:
+    train:
+      - ../data_process/compound_split/train.csv
+    val:
+      - ../data_process/compound_split/val.csv
+    test:
+      - ../data_process/compound_split/test.csv
